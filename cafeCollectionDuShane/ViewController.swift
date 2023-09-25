@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var amountOutlet: UITextField!
     @IBOutlet weak var foodOutlet: UITextField!
     
-    @IBOutlet weak var priceOutlet: UILabel!
+    @IBOutlet weak var priceOutlet: UITextView!
     
     
     override func viewDidLoad() {
@@ -47,7 +47,7 @@ class ViewController: UIViewController {
     @IBAction func menuAction(_ sender: Any) {
         foodString = ""
         var priceOrg : [Double] = []
-        var foodOrg = food.sorted(by: <)
+        let foodOrg = food.sorted(by: <)
         for i in 0..<food.count{
             for f in 0..<food.count{
                 if(foodOrg[i] == food[f]){
@@ -56,7 +56,7 @@ class ViewController: UIViewController {
             }
         }
         for i in 0..<food.count{
-            foodString = "\(foodString) \n \(foodOrg[i]) is \(priceOrg[i])"
+            foodString = "\(foodString) \n \(foodOrg[i]) is $\(priceOrg[i])"
         }
         priceOutlet.text = foodString
     }
@@ -82,7 +82,6 @@ class ViewController: UIViewController {
             self.myLabel.isHidden = false
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                
                 self.myLabel.isHidden = true
             }
             
@@ -116,6 +115,8 @@ class ViewController: UIViewController {
                 self.myLabel.isHidden = true
             }
         }
+        foodEnter.text = ""
+        costEnter.text = ""
     }
         
         
@@ -123,7 +124,7 @@ class ViewController: UIViewController {
         
         
         func order(){
-            var foo = foodOutlet.text
+            let foo = foodOutlet.text
             cartString = ""
             if(food.contains(foo!)){
                 for i in 0..<food.count{
@@ -135,7 +136,7 @@ class ViewController: UIViewController {
                             cartAmt = cartAmt + ((Double)(amountOutlet.text!)!) * (price[i])
                             for (key, val) in cartDict{
                                 cartString = "\(cartString) \n \(val) \(key)(s)"
-                                totalOutlet.text = "\(cartAmt)"
+                                totalOutlet.text = "Total is: $\(cartAmt)"
                             }
                             len = cartDict.count
                             cartOutlet.text = cartString
@@ -149,12 +150,14 @@ class ViewController: UIViewController {
             else{
                 cartOutlet.text = "Please enter a valid item"
             }
+            foodOutlet.text = ""
+            amountOutlet.text = ""
         }
         
         func change(){
             foodString = ""
             var foodOrg : [String] = []
-            var priceOrg = price.sorted(by: <)
+            let priceOrg = price.sorted(by: <)
             for i in 0..<food.count{
                 for f in 0..<food.count{
                     if(priceOrg[i] == price[f]){
@@ -163,7 +166,7 @@ class ViewController: UIViewController {
                 }
             }
             for i in 0..<food.count{
-                foodString = "\(foodString) \n \(foodOrg[i]) is \(priceOrg[i])"
+                foodString = "\(foodString) \n \(foodOrg[i]) is $\(priceOrg[i])"
             }
             priceOutlet.text = foodString
         }
